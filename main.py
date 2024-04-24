@@ -15,6 +15,15 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 
+sad_words = ["depressed","unhapppy","miserable"]
+encourgements = ["Be happy","Its okay","Cheer up"]
+
+def get_quote():
+    resposes = requests.get("https://zenquotes.io/api/random")
+    json_data = json.loads(resposes.text)
+    quote = json_data[0]["q"]+"-"+json.data[0]['a']
+    return quote
+
 async def send_message(message:str,user_message:str) -> None:
     if not user_message:
         return 
@@ -40,7 +49,7 @@ async def on_message(message):
         quote = get_quote()
         await message.channel.send(quote)
     if any(word in msg for word in sad_words):
-        await message.channel.send(random.choice(starter_encourgements))
+        await message.channel.send(random.choice(encourgements))
     if msg.startswith('$rolldice'): 
         diceRoll = random.randint(1,6)
         await message.channel.send(diceRoll)
